@@ -28,20 +28,35 @@
 
 int main(int argc,char *argv[])
 {
+	int port;
+	int ret;
 	if(argc < 3)
 	{
-		printf("eg: ./a.out port path\n");
-		exit(1);
-	}
+		//printf("eg: ./a.out port path\n");
+		//exit(1);
+		port = 8080;
+		
+		ret = chdir("../dir");
+		if(ret == -1)
+		{
+			perror("chdir error");
+			exit(1);
+		}
 
-	//将端口转为 数字
-	int port = atoi(argv[1]);
-	//修改进程的工作目录,方便后续进行操作
-	int ret = chdir(argv[2]);
-	if(ret == -1)
+	}
+	else
 	{
-		perror("chdir error");
-		exit(1);
+		//将端口转为 数字
+		port = atoi(argv[1]);
+		
+		//修改进程的工作目录,方便后续进行操作
+		ret = chdir(argv[2]);
+		if(ret == -1)
+		{
+			perror("chdir error");
+			exit(1);
+		}
+
 	}
 
 	//启动epoll模型

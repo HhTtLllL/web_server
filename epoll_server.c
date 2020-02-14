@@ -219,6 +219,7 @@ void do_read(int cfd,int epfd)
 		//处理http请求
 		http_request(line,cfd);
 		printf("进入http请求\n");
+	//	disconnect(cfd,epfd);
 	}
 
 	
@@ -303,8 +304,11 @@ void http_request(const char* request,int cfd)
 	if(ret == -1)
 	{
 		//show  404
-		perror("stat error");
-		exit(1);
+		//perror("stat error");
+		//exit(1);
+		send_respond_head(cfd,404,"File Not Found",".html",-1);
+		send_file(cfd,"404.html");
+		return ;
 	}
 	//判断是目录还是文件  stat
 	//如果是目录
@@ -312,14 +316,14 @@ void http_request(const char* request,int cfd)
 	{
 		//将目录的内容和一个 html网页,发送
 		//首先发送头信息
-		send_respond_head(cfd,200,"OK","text/html",-1);
+		send_respond_head(cfd,200,"OK",get_file_type(".html"),-1);
 		//发送目录信息
 		send_dir(cfd,file);
 	}
 	else if(S_ISREG(st.st_mode))   //文件
 	{
 		//发送消息抱头
-		send_respond_head(cfd,200,"OK","text/plain",st.st_size);
+		send_respond_head(cfd,200,"OK",get_file_type(file),st.st_size);
 		//打开文件,将文件发送给游览器
 		send_file(cfd,file);
 	}
@@ -364,6 +368,8 @@ void send_file(int cfd,const char* filename)
 	if(fd == -1)
 	{
 		//show 404
+		send_respond_head(cfd,404,"File Not Found",".html",-1);
+		send_file(cfd,"404.html");
 		return ;
 	}
 
@@ -402,8 +408,13 @@ void send_dir(int cfd,const char* dirname)
 	int num = scandir(dirname,&ptr,NULL,alphasort);
 	if(num == -1)
 	{
-		perror("scandir error");
-		exit(1);
+		//perror("scandir error");
+		//exit(1);
+		//show 404
+		send_respond_head(cfd,404,"File Not Found",".html",-1);
+		send_file(cfd,"404.html");
+
+		return ;
 	}
 	
 	for(int i = 0;i < num;i++)
@@ -517,3 +528,30 @@ int hexit(char c)
 
 	return 0;
 }
+
+const char* get_file_type(const char* name)
+{
+        char* dot;
+        //从右向左查找 '.' 字符,如不存在返回NULL
+        dot = strrchr(name,'.');
+        if(dot == NULL) return "text/plain; charset=utf-8";
+        if(strcmp(dot,".html") == 0 || strcmp(dot,".htm") == 0) return "text/html; charset=utf-8";
+        if(strcmp(dot,".jpg") == 0 || strcmp(dot,".jpeg") == 0) return "image/jpeg";
+        if(strcmp(dot,".gif") == 0) return "image/gif";
+        if(strcmp(dot,".png") == 0) return "image/png";
+        if(strcmp(dot,".css") == 0) return "text/css";
+        if(strcmp(dot,".au") == 0) return "audio/basic";
+        if(strcmp(dot,".wav") == 0) return "audio/wav";
+        if(strcmp(dot,".avi") == 0) return "video/x-msvideo";
+        if(strcmp(dot,".mov") == 0 || strcmp(dot,".qt") == 0) return "video/quicktime";
+        if(strcmp(dot,".mpeg") == 0 || strcmp(dot,".mpe") == 0) return "video/mpeg";
+        if(strcmp(dot,".vrml") == 0 || strcmp(dot,".wrl") == 0) return "video/vrml";
+        if(strcmp(dot,".midi") == 0 || strcmp(dot,".mid") == 0) return "video/midi";
+        if(strcmp(dot,".mp3") == 0) return "audio/mpeg";
+        if(strcmp(dot,".ogg") == 0) return "application/ogg";
+        if(strcmp(dot,".pac") == 0) return "application/x-ns-proxy-autoconfig";
+
+	return "text/plain; charset=utf-8";
+
+}
+

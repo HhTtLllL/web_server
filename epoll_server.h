@@ -14,5 +14,6 @@ void send_dir(int cfd,const char* dirname);
 void decode_str(char* to,char* from);
 void encode_str(char* to,int tosize,const char* from);
 int hexit(char c);
+const char* get_file_type(const char* name);
 
 #endif
