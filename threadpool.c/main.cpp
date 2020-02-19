@@ -63,6 +63,7 @@ int main(int argc,char* argv[])
 
 	//创建线程池
 	threadpool< http_conn>* pool = NULL;
+
 	try
 	{
 		pool = new threadpool<http_conn>;
@@ -82,6 +83,7 @@ int main(int argc,char* argv[])
 	assert(listenfd >= 0);
 
 	struct linger tmp = {1,0};
+
 	setsockopt(listenfd,SOL_SOCKET,SO_LINGER,&tmp,sizeof(tmp));
 
 	int ret = 0;
@@ -115,8 +117,9 @@ int main(int argc,char* argv[])
 		for(int i = 0;i < number;i++)
 		{
 			int sockfd = events[i].data.fd;
-			if(sockfd == listenfd)
+			if(sockfd == listenfd) //新的用户连接
 			{
+				printf("接收到用户连接\n");
 				struct sockaddr_in client_address;
 				socklen_t client_addrlength = sizeof(client_address);
 				int connfd = accept(listenfd,(struct sockaddr*)&client_address,&client_addrlength);
@@ -144,6 +147,7 @@ int main(int argc,char* argv[])
 				//根据读的结果,决定将任务添加到线程池,还是关闭连接
 				if(users[sockfd].read())
 				{
+					printf("将任务加入到任务队列\n");
 					pool->append(users + sockfd);
 				}
 				else

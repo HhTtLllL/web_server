@@ -76,6 +76,7 @@ bool threadpool< T >::append(T* request)
 {
 	//操作工作队列时一定要加锁,因为他被所有线程共享
 	m_queuelocker.lock();
+	//如果线程池的请求队列的长度大于 最大长度则出错
 	if(m_workqueue.size() > m_max_requests)
 	{
 		m_queuelocker.unlock();
@@ -83,6 +84,7 @@ bool threadpool< T >::append(T* request)
 	}
 	m_workqueue.push_back(request);
 	m_queuelocker.unlock();
+	//增加信号量
 	m_queuestat.post();
 
 	return true;
@@ -92,7 +94,9 @@ template<typename T>
 void* threadpool< T >::worker(void* arg)
 {
 	threadpool* pool = (threadpool*)arg;
+	printf("线程池开始工作...\n");
 	pool->run();
+	printf("线程池工作完成...\n");
 	return pool;
 }
 

@@ -23,7 +23,7 @@ const char* error_500_form = "there was an unusual problem serving the requested
 
 //网站的根目录
 
-const char* doc_root = "/val/www/html";
+const char* doc_root = "./dir";
 
 //设置套接字为非阻塞
 int setnonblocking(int fd)
@@ -122,29 +122,42 @@ void http_conn::init()
 
 }
 
-//从状态
+//从状态机
 http_conn::LINE_STATUS http_conn::parse_line()
 {
 	char temp;
+	//m_checked_idx 指向buffer(应用程序的缓冲区)中当前正在分析的字节,
+	//m_read_index  指向buffer中客户数据的尾部的下一字节.
+	//buffer中第0 ~ m_check_idx字节都已经分析完毕
+	//第m_checked_index ~ (m_read_index - 1 ) 字节在下面的循环分析
+	printf("check_idx = %d,read_idx = %d\n",m_checked_idx,m_read_idx);
 	for(;m_checked_idx < m_read_idx;++m_checked_idx)
 	{
-		temp = m_read_buf[m_read_idx];
+		//获取当前字节
+		temp = m_read_buf[m_checked_idx];
+		//如果当前字节为 '\r' ,即回车符,则说明可能读取到一个完整的行
 		if(temp == '\r')
 		{
+			//如果'\r' 字符是目前buffer中最后一个已经被读入的客户数据,那么
+			//这次分析没有读取到一个完整的行,返回LINE_OPEN ,用来表示还需要
+			//继续读取客户数据才能进一步分析
 			if((m_checked_idx + 1) == m_read_idx)
 			{
 				return LINE_OPEN;
 			}
+			//如果下一个字符为 '\n'   则说明读取到一个完整的行
 			else if(m_read_buf[m_checked_idx + 1] == '\n')
 			{
+				//将 '\r','\n' 变为 '\0'
 				m_read_buf[m_checked_idx++] = '\0';
 				m_read_buf[m_checked_idx++] = '\0';
 				
 				return LINE_OK;
 			}
-
+			//否则的话,说明客户发送的HTTP请求存在语法错误
 			return LINE_BAD;
 		}
+		//如果当前的字节是 '\n'  换行符,则也说明可能读取到一个完整的行
 		else if(temp == '\0')
 		{
 			if(( m_checked_idx > 1) && (m_read_buf[m_checked_idx - 1] == '\r')) 
@@ -159,7 +172,8 @@ http_conn::LINE_STATUS http_conn::parse_line()
 		}
 
 	}
-
+	//如果所有内容都分析完毕也没有遇到 '\r' 字符,则返回LINE_OPEN 表示还需要继续读取客户
+	//数据才能进一步分析
 	return LINE_OPEN;
 }
 
@@ -196,11 +210,13 @@ bool http_conn::read()
 }
 
 //解析HTTP请求行,获得请求方法,目标URL,以及HTTP版本号
-
 http_conn::HTTP_CODE http_conn::parse_request_line(char* text)
 {
+	printf("text ==== %s\n",text);
+	//																								空格,\t	
 	//依次检测text 中的字符,当被检测的字符在字符串" \t" 中也包含时,则停止监测,返回该字符的位置
 	m_url = strpbrk(text," \t");
+	//如果请求行中没有空白字符或者'\t'  ,则HTTP请求一定有问题
 	if(!m_url)
 	{
 		return BAD_REQUEST;
@@ -209,7 +225,7 @@ http_conn::HTTP_CODE http_conn::parse_request_line(char* text)
 	*m_url++ = '\0';
 
 	char* method = text;
-	if(strcasecmp(method,"GET") == 0)
+	if(strcasecmp(method,"GET") == 0) //仅支持GET
 	{
 		m_method = GET;
 	}
@@ -218,6 +234,7 @@ http_conn::HTTP_CODE http_conn::parse_request_line(char* text)
 		return BAD_REQUEST;
 	}
 
+	//检测 m_url 中第一个不在字符串 " \t"  中出现的字符的下标
 	m_url += strspn(m_url," \t");
 	m_version = strpbrk(m_url," \t");
 
@@ -254,6 +271,7 @@ http_conn::HTTP_CODE http_conn::parse_request_line(char* text)
 //解析HTTP请求的一个头部信息
 http_conn::HTTP_CODE http_conn::parse_headers(char* text)
 {
+	//printf("开始分析HTTP请求头部信息\n");
 	//遇到空行表示头部字段解析完毕
 	if(text[0] == '\0')
 	{
@@ -283,6 +301,7 @@ http_conn::HTTP_CODE http_conn::parse_headers(char* text)
 	//处理Content-Length头部字段
 	else if(strncasecmp(text,"Content-Length:",15) == 0)
 	{
+		printf("content-length\n");
 		text += 15;
 		text += strspn(text," \t");
 		m_content_length = atol(text);
@@ -291,6 +310,7 @@ http_conn::HTTP_CODE http_conn::parse_headers(char* text)
 	//处理Host头部字段
 	else if(strncasecmp(text,"Host:",5) == 0)
 	{
+		printf("Host:");
 		text += 5;
 		text += strspn(text," \t");
 		m_host = text;
@@ -300,6 +320,7 @@ http_conn::HTTP_CODE http_conn::parse_headers(char* text)
 		printf("oop! unknow header %s\n",text);
 	}
 
+	//printf("HTTP请求头部解析完成\n");
 	return NO_REQUEST;
 }
 
@@ -322,10 +343,10 @@ http_conn::HTTP_CODE http_conn::process_read()
 	LINE_STATUS line_status = LINE_OK;
 	HTTP_CODE ret = NO_REQUEST;
 	char* text = 0;
-
 	while(((m_checked_state == CHECK_STATE_CONTENT) && line_status == LINE_OK) || 
 			((line_status = parse_line()) == LINE_OK))
 	{
+
 		text = get_line();
 		m_start_line = m_checked_idx;
 		printf("got 1 htp line: %s\n",text);
@@ -335,30 +356,38 @@ http_conn::HTTP_CODE http_conn::process_read()
 			case CHECK_STATE_REQUESTLINE:
 				{
 					ret = parse_request_line(text);
+					printf("REQUESTLINE\n");
 					if( ret == BAD_REQUEST)
 					{
+						printf("BAD_REQUEST\n");
 						return BAD_REQUEST;
 					}
 					break;
 				}
 			case CHECK_STATE_HEADER:
 				{
+					printf("HEADER\n");
 					ret = parse_headers(text);
 					if(ret == BAD_REQUEST)
 					{
+						printf("BAD_REQUEST\n");
 						return BAD_REQUEST;
 					}
 					else if(ret == GET_REQUEST)
 					{
-						return GET_REQUEST;
+						printf("GET_RE\n");
+						return do_request();
+						//return GET_REQUEST;
 					}
 					break;
 				}
 			case CHECK_STATE_CONTENT:
 				{
+					printf("CONTENT\n");
 					ret = parse_content(text);
 					if(ret == GET_REQUEST)
 					{
+						printf("do_read\n");
 						return do_request();
 					}
 					line_status = LINE_OPEN;
@@ -366,11 +395,12 @@ http_conn::HTTP_CODE http_conn::process_read()
 				}
 			default:
 				{
+					printf("INT\n");
 					return INTERNAL_ERROR;
 				}
 		}
 	}
-
+	printf("NO_REQUEST\n");
 	return NO_REQUEST;
 }
 
@@ -394,6 +424,7 @@ http_conn::HTTP_CODE http_conn::do_request()
 
 	if(S_ISDIR(m_file_stat.st_mode))
 	{
+		printf("do_read BAD_REQUEst\n");
 		return BAD_REQUEST;
 	}
 
@@ -534,8 +565,10 @@ bool http_conn::process_write(HTTP_CODE ret)
 				add_headers(strlen(error_500_form));
 				if(!add_content(error_500_form))
 				{
+					printf("INTERNAL_ERROR\n");
 					return false;
 				}
+				else printf("INTERNAL_ERROR 成功\n");
 				break;
 			}
 		case BAD_REQUEST:
@@ -543,8 +576,10 @@ bool http_conn::process_write(HTTP_CODE ret)
 				add_status_line(400,error_400_title);
 				if(add_headers(strlen(error_400_form)))
 				{
+					printf("BADREQUEST\n");
 					return false;
 				}
+				else printf("BAD_REQUEST 成功\n");
 				break;
 			}
 		case NO_RESOURCE:
@@ -553,8 +588,10 @@ bool http_conn::process_write(HTTP_CODE ret)
 				add_headers(strlen(error_404_form));
 				if(!add_content(error_404_form))
 				{
+					printf("NO_RESOURCE\n");
 					return false;
 				}
+				else printf("NO_RESOURCE 成功\n");
 				break;
 			}
 		case FORBIDDEN_REQUEST:
@@ -563,8 +600,10 @@ bool http_conn::process_write(HTTP_CODE ret)
 				add_headers(strlen(error_403_form));
 				if(!add_content(error_403_form))
 				{
+					printf("FORBIDDEN_REQUEST\n");
 					return false;
 				}
+				else printf("FORBID 成功\n");
 				break;
 			}
 		case FILE_REQUEST:
@@ -578,7 +617,7 @@ bool http_conn::process_write(HTTP_CODE ret)
 					m_iv[1].iov_base = m_file_address;
 					m_iv[1].iov_len = m_file_stat.st_size;
 					m_iv_count = 2;
-
+					printf("FILE_RE 成功\n");
 					return true;
 				}
 				else
@@ -587,12 +626,17 @@ bool http_conn::process_write(HTTP_CODE ret)
 					add_headers(strlen(ok_string));
 					if(!add_content(ok_string))
 					{
+						printf("FILE_REQUEST\n");
+				
 						return false;
 					}
+					else printf("FILE___成功\n");
+					
 				}
 			}
 		default:
 			{
+				printf("都不是\n");
 				return false;
 			}
 	}
@@ -607,19 +651,22 @@ bool http_conn::process_write(HTTP_CODE ret)
 //由线程池中的工作线程调用,这是处理HTTP请求的入口函数
 void http_conn::process()
 {
+	printf("procsee\n");
+	printf("解析HTTP请求\n");
 	HTTP_CODE read_ret = process_read();
 	if(read_ret == NO_REQUEST)
 	{
 		modfd(m_epollfd,m_sockfd,EPOLLIN);
 		return ;
 	}
-
+	printf("填充HTTP应答\n");
 	bool write_ret = process_write(read_ret);
 	if(!write_ret)
 	{
+		printf("填充应答失败\n");
 		close_conn();
 
 	}
-
+	else printf("填充应答成功\n");
 	modfd(m_epollfd,m_sockfd,EPOLLOUT);
 }

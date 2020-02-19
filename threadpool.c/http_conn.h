@@ -37,16 +37,31 @@ class http_conn
 		enum METHOD {GET = 0,POST,HEAD,PUT,DELETETRACE,OPTIONS,CONNECT,PATCH };
 		
 		//解析客户请求时,主状态所处的状态
+		/*CHECK_STATE_REQUESTLINE  ---当前正在分析请求行
+		CHECK_STATE_HEADER		--当前正在分析头部字段
+		CHECK_STATE_CONTENT   -- 正在分析 连接
+		*/
 		enum CHECK_STATE { CHECK_STATE_REQUESTLINE = 0,
 					CHECK_STATE_HEADER,
 					CHECK_STATE_CONTENT};
 
 		//服务器处理HTTP请求的可能结果
+		/*	服务器处理HTTP请求的结果:  NO_REQUEST 表示请求不完整需要继续读取客户数据
+			GET_REQUEST ---表示或的了一个完整的客户请求
+			BAD_REQUEST ---表示客户请求有语法错误
+			FORBIDDEN_REQUEST ---表示客户对资源没有足够的访问权限
+			INTERNAL_ERROR---表示服务器 内部错误
+			CLOSED_CONNECTION---表示客户段已经关闭连接
+		*/
 		enum HTTP_CODE{NO_REQUEST,GET_REQUEST,BAD_REQUEST,
 				NO_RESOURCE,FORBIDDEN_REQUEST,FILE_REQUEST,
 				INTERNAL_ERROR,CLOSED_CONNECTION};
 
-		//行的读取状态
+		/*行的读取状态
+		从状态机的三种可能,行的读取状态--
+		   读取到完整的行,   --LINE_OK
+		行出错,						--LINE_BAD
+		行数据尚且不完整   --LINE_OPEN*/
 		enum LINE_STATUS {LINE_OK = 0,LINE_BAD,LINE_OPEN };
 	public:
 		http_conn(){}
@@ -80,7 +95,12 @@ class http_conn
 		HTTP_CODE parse_headers(char* text);
 		HTTP_CODE parse_content(char* text);
 		HTTP_CODE do_request();
-		char* get_line() { return m_read_buf + m_start_line; }
+		char* get_line()
+		 {
+			 printf("getline = %s\n",m_read_buf + m_start_line);
+
+			return m_read_buf + m_start_line; 
+		}
 		LINE_STATUS parse_line();
 
 		//下面这一组函数被process_write 调用以填充HTTP应答
