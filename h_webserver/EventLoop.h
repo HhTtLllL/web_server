@@ -2,6 +2,16 @@
 
 #include <iostream>
 #include <vector>
+#include <functional>
+#include <memory>
+#include <vector>
+#include "Channel.h"
+#include "Epoll.h"
+#include "Util.h"
+#include "base/CurrentThread.h"
+#include "base/Logging.h"
+#include "base/Thread.h"
+
 
 namespace tt{
 
@@ -18,12 +28,18 @@ public:
 	void loop();    //Loops forever 
 	void quit();
 
-	void runInLoop(Functor cb);
-	void queueInLoop(Functor cb);
-	
-	void assertInLoopThread(){
-		
-	}
+	void runInLoop(Functor&& cb);
+	void queueInLoop(Functor&& cb);
+
+	bool isInLoopThread() const { return m_threadId == CurrentThread::tid(); }
+
+	void assertInLoopThread(){ assert(isInLoopThread()); }
+	void shutdown(shared_ptr<Channel> channel) { shutDownWR(channel->getFd()); }
+
+	void removeFromPoller(shared_ptr<Channel> channel){ m_epoll->epoll_del(channel); }
+
+	void updatePoller(shared_ptr<Channel> channel, int timeout = 0){ m_epoll->epoll_mod(channel, timeout); }
+	void addToPoller(shared_ptr<Channel> channel, int timeout = 0) { m_epoll->epoll_add(channel, timeout); }
 
 
 private:
@@ -37,16 +53,13 @@ private:
 	int m_wakeupFd;
 	mutable MutexLock m_mutex;
 	std::vector<Functor> m_pendingFunctors;
-	//shared_ptr<Channel> m_wakeupChannel;
+	shared_ptr<Channel> m_wakeupChannel;
 	const pid_t m_threadId;
 
 	void wakeup();
 	void handleRead();
 	void doPendingFunctors();
 	void handleConn();
-
-
-
 
 };
 	
