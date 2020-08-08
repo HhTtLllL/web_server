@@ -25,7 +25,7 @@ int createEventfd(){
 	return evtfd;
 }
 
-/*
+
 void EventLoop::shutdown(std::shared_ptr<Channel> channel) { 
 	shutDownWR(channel->getFd()); 
 }
@@ -34,13 +34,13 @@ void EventLoop::removeFromPoller(std::shared_ptr<Channel> channel){
 	m_epoll->epoll_del(channel); 
 }
 
-	void EventLoop::updatePoller(std::shared_ptr<Channel> channel, int timeout = 0){ 
+	void EventLoop::updatePoller(std::shared_ptr<Channel> channel, int timeout){ 
 		m_epoll->epoll_mod(channel, timeout); 
 }
 	
-	void EventLoop::addToPoller(std::shared_ptr<Channel> channel, int timeout = 0) { 
+	void EventLoop::addToPoller(std::shared_ptr<Channel> channel, int timeout) { 
 		m_epoll->epoll_add(channel, timeout); 
-	}*/
+	}
 EventLoop::EventLoop()
 	:m_looping(false),
 	m_epoll(new Epoll()),

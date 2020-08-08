@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/LoggingTest.dir/LoggingTest.cpp.o  -o LoggingTest ../libserver_base.a -lpthread -lrt 

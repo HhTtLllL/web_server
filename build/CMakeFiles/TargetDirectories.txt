@@ -1,0 +1,14 @@
+/home/tt/web_server/build/CMakeFiles/rebuild_cache.dir
+/home/tt/web_server/build/CMakeFiles/edit_cache.dir
+/home/tt/web_server/build/h_webserver/CMakeFiles/rebuild_cache.dir
+/home/tt/web_server/build/h_webserver/CMakeFiles/h_webserver.dir
+/home/tt/web_server/build/h_webserver/CMakeFiles/edit_cache.dir
+/home/tt/web_server/build/h_webserver/base/CMakeFiles/rebuild_cache.dir
+/home/tt/web_server/build/h_webserver/base/CMakeFiles/libserver_base.dir
+/home/tt/web_server/build/h_webserver/base/CMakeFiles/edit_cache.dir
+/home/tt/web_server/build/h_webserver/base/tests/CMakeFiles/rebuild_cache.dir
+/home/tt/web_server/build/h_webserver/base/tests/CMakeFiles/LoggingTest.dir
+/home/tt/web_server/build/h_webserver/base/tests/CMakeFiles/edit_cache.dir
+/home/tt/web_server/build/h_webserver/tests/CMakeFiles/rebuild_cache.dir
+/home/tt/web_server/build/h_webserver/tests/CMakeFiles/HTTPClient.dir
+/home/tt/web_server/build/h_webserver/tests/CMakeFiles/edit_cache.dir

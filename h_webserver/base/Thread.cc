@@ -21,7 +21,6 @@ __thread int t_tidStringLength = 6;
 __thread const char* t_threadName = "default";
 }
 
-
 namespace tt{
 
 namespace detail{
