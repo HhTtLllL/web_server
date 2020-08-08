@@ -16,7 +16,7 @@ public:
 
 	~MutexLock(){
 		pthread_mutex_lock(&m_mutex);
-		pthread_mutex_unlock(&m_mutex)
+		pthread_mutex_unlock(&m_mutex);
 	}
 
 	void lock() { pthread_mutex_lock(&m_mutex); }

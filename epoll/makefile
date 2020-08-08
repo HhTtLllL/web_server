@@ -1,12 +1,12 @@
 obj = epoll_server.o main.o
-CC = gcc 
+CC = g++ 
 target = webserver
 
 $(target):$(obj)
-	gcc $^ -o $@
+	g++ $^ -o $@
 
 %.o:%.c
-	gcc -c $< -o $@
+	g++ -c $< -o $@
 clean:
 	rm *.o $(target)
 

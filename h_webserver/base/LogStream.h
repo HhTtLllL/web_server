@@ -58,7 +58,7 @@ private:
 class LogStream : noncopyable{
 
 public:
-	typedef FixedBuffer<detail::kSmallBuffer> Buffer;
+	typedef detail::FixedBuffer<detail::kSmallBuffer> Buffer;
 
 	LogStream& operator << (bool v){
 		m_buffer.append(v ? "1" : "0",1);
@@ -112,6 +112,10 @@ public:
 		return *this;
 	}
 
+	void append(const char* data,int len){ m_buffer.append(data, len); }
+
+	const Buffer& buffer() const { return m_buffer; }
+	void resetBuffer() { m_buffer.reset(); }
 
 
 
@@ -128,28 +132,5 @@ private:
 
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 } //tt

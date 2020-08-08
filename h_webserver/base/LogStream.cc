@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <limits>
 
+
+using namespace tt;
+using namespace tt::detail;
 namespace tt{
 
 namespace detail{
@@ -41,6 +44,7 @@ template class FixedBuffer<kSmallBuffer>;
 template class FixedBuffer<kLargeBuffer>;
 
 }//detail
+
 }//tt
 
 template<typename T>
@@ -70,7 +74,7 @@ LogStream& LogStream::operator<< (int v){
 	return *this;
 }
 
-LogStream& LogStream::operator<< (int unsigned int){
+LogStream& LogStream::operator<< (int unsigned v){
 	formatInteger(v);
 
 	return *this;
@@ -79,27 +83,27 @@ LogStream& LogStream::operator<< (int unsigned int){
 LogStream& LogStream::operator<< (long v){
 	formatInteger(v);
 
-	return *ths;
+	return *this;
 }
 
 
 LogStream& LogStream::operator<< (unsigned long v){
 	formatInteger(v);
 
-	return *ths;
+	return *this;
 }
 
 LogStream& LogStream::operator<< (long long v){
 	formatInteger(v);
 
-	return *ths;
+	return *this;
 }
 
 
 LogStream& LogStream::operator<< (unsigned long long v){
 	formatInteger(v);
 
-	return *ths;
+	return *this;
 }
 
 LogStream& LogStream::operator<< (double v){
@@ -110,7 +114,7 @@ LogStream& LogStream::operator<< (double v){
 	}
 
 
-	return *ths;
+	return *this;
 }
 
 
@@ -123,7 +127,7 @@ LogStream& LogStream::operator<< (long double v){
 	}
 
 
-	return *ths;
+	return *this;
 }
 
 

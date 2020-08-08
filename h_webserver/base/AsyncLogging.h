@@ -5,7 +5,7 @@
 #include <vector>
 #include "CountDownLatch.h"
 #include "LogStream.h"
-#include "MutexLock"
+#include "MutexLock.h"
 #include "Thread.h"
 #include "noncopyable.h"
 
@@ -31,7 +31,7 @@ public:
 
 	void stop(){
 		m_running = false;
-		m_cond,notify();
+		m_cond.notify();
 		m_thread.join();
 	}
 
@@ -41,13 +41,13 @@ private:
 	//回调函数
 	void threadFunc();
 
-	typedef FixedBuffer<kLargeBuffer> Buffer;
+	typedef detail::FixedBuffer<detail::kLargeBuffer> Buffer;
 	typedef std::vector<std::shared_ptr<Buffer> > BufferVector;
 	typedef std::shared_ptr<Buffer> BufferPtr;
 	const int m_flushInterval;
 
 	bool m_running;
-	const std::string m_string;
+	std::string m_basename;
 	tt::Thread m_thread;
 	tt::CountDownLatch m_latch;
 	tt::MutexLock m_mutex;

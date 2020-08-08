@@ -17,8 +17,7 @@ Channel::Channel(EventLoop *loop)
 	m_events(0),
 	m_lastEvents(0),
 	m_fd(0){
-	
-	
+
 }
 
 Channel::Channel(EventLoop *loop,int fd)
@@ -60,53 +59,11 @@ void Channel::handleWrite(){
 }
 
 
-void Channer::handleConn(){
+void Channel::handleConn(){
 	
 	if(m_connHandler){
 		m_connHandler();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

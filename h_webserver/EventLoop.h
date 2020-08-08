@@ -5,17 +5,32 @@
 #include <functional>
 #include <memory>
 #include <vector>
-#include "Channel.h"
-#include "Epoll.h"
+//#include "Channel.h"
+//#include "Epoll.h"
 #include "Util.h"
 #include "base/CurrentThread.h"
 #include "base/Logging.h"
 #include "base/Thread.h"
 
 
+
+//using namespace tt;
+//using namespace net;
+
+
+
+/*
+namespace tt::net{
+
+	class Channel;
+}
+*/
 namespace tt{
 
 namespace net{
+
+class Channel;
+class Epoll;
 
 class EventLoop{
 
@@ -34,12 +49,12 @@ public:
 	bool isInLoopThread() const { return m_threadId == CurrentThread::tid(); }
 
 	void assertInLoopThread(){ assert(isInLoopThread()); }
-	void shutdown(shared_ptr<Channel> channel) { shutDownWR(channel->getFd()); }
+	void shutdown(std::shared_ptr<Channel> channel);
 
-	void removeFromPoller(shared_ptr<Channel> channel){ m_epoll->epoll_del(channel); }
+	void removeFromPoller(std::shared_ptr<Channel> channel);
 
-	void updatePoller(shared_ptr<Channel> channel, int timeout = 0){ m_epoll->epoll_mod(channel, timeout); }
-	void addToPoller(shared_ptr<Channel> channel, int timeout = 0) { m_epoll->epoll_add(channel, timeout); }
+	void updatePoller(std::shared_ptr<Channel> channel, int timeout = 0);
+	void addToPoller(std::shared_ptr<Channel> channel, int timeout = 0); 
 
 
 private:
@@ -49,11 +64,11 @@ private:
 	bool m_callingPendingFunctors;  //是否正在嗲偶偶那个pendingFunctor 的函数
 
 
-	shared_ptr<Epoll> m_epoll;
+	std::shared_ptr<Epoll> m_epoll;
 	int m_wakeupFd;
 	mutable MutexLock m_mutex;
 	std::vector<Functor> m_pendingFunctors;
-	shared_ptr<Channel> m_wakeupChannel;
+	std::shared_ptr<Channel> m_wakeupChannel;
 	const pid_t m_threadId;
 
 	void wakeup();

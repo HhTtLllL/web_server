@@ -1,6 +1,6 @@
 #pragma once 
 
-#include <stdint>
+#include <stdint.h>
 
 
 namespace tt{
@@ -28,14 +28,8 @@ namespace CurrentThread{
 
 	inline int tidStringLength() { return t_tidStringLength; }
 	inline const char* name() { return t_threadName; }
-	inline const char* tidString{ return t_tidString; }
+	inline const char* tidString() { return t_tidString; }
 
-	
+}  //CurrentThread
 
-
-
-
-
-}
-
-}
+}  //tt

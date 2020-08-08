@@ -504,9 +504,10 @@ bool http_conn::add_response(const char* format,...)
 	{
 		return false;
 	}
-
+//typedef   char* va_list
 	va_list arg_list;
 	va_start(arg_list,format);
+	//格式化串,将变参 格式化到m_write_buf+m_write_idx 中
 	int len = vsnprintf(m_write_buf + m_write_idx,WRITE_BUFFER_SIZE - 1 - m_write_idx,format,arg_list);
 
 	if(len >= (WRITE_BUFFER_SIZE - 1 - m_write_idx))
@@ -515,6 +516,7 @@ bool http_conn::add_response(const char* format,...)
 	}
 
 	m_write_idx += len;
+	//释放相应的资源
 	va_end(arg_list);
 
 	return true;
@@ -668,5 +670,6 @@ void http_conn::process()
 
 	}
 	else printf("填充应答成功\n");
+	//已经将数据写到缓冲区中,现在监测 EPOLLOUT 的写缓冲区
 	modfd(m_epollfd,m_sockfd,EPOLLOUT);
 }

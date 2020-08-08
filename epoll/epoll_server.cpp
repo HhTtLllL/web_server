@@ -32,6 +32,8 @@
 
 void epoll_run(int port)
 {
+	//创建线程池
+	
 	//创建一个epoll树的根结点
 	int epfd = epoll_create(MAXSIZE);
 	if(epfd == -1)

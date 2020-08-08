@@ -5,7 +5,7 @@
 
 namespace tt{
 
-namespace FilUtil{
+namespace FileUtil{
 
 class AppendFile : noncopyable{
 
@@ -17,11 +17,11 @@ public:
 	void flush();
 
 private:
-	size_t write(const char* logline,size_t len);
-	File* m_fp;
+	size_t mywrite(const char* logline,size_t len);
+	FILE* m_fp;
 	char m_buffer[64*1024];
 
-}
+};
 
 } //FileUtil
 

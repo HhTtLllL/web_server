@@ -5,7 +5,9 @@
 #include <functional>
 #include "LogFile.h"
 
-tt::AsyncLogging::AsyncLogging(const std::string& basename, int flushInterval)
+using namespace tt;
+
+AsyncLogging::AsyncLogging(const std::string& basename, int flushInterval)
 	:m_flushInterval(flushInterval),
 	m_running(false),
 	m_basename(basename),
@@ -54,7 +56,7 @@ void tt::AsyncLogging::threadFunc(){
 
 	m_latch.countDown();
 
-	LogFle output(m_basename);
+	LogFile output(m_basename);
 
 	BufferPtr newBuffer1(new Buffer);
 	BufferPtr newBuffer2(new Buffer);
@@ -91,12 +93,12 @@ void tt::AsyncLogging::threadFunc(){
 			buffersToWrite.swap(m_buffers);
 
 			if(!m_nextBuffer){ //替换缓冲区，这样保证前段始终有一个预备 buffer 可供调配
-				m_nextBuffer = std::mov(newBuffer2);
+				m_nextBuffer = std::move(newBuffer2);
 			}
 		}
 	
 
-		assert(!buffersToWrite,empty());
+		assert(!buffersToWrite.empty());
 
 
 		if(buffersToWrite.size() > 25){

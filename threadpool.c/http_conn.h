@@ -97,8 +97,6 @@ class http_conn
 		HTTP_CODE do_request();
 		char* get_line()
 		 {
-			 printf("getline = %s\n",m_read_buf + m_start_line);
-
 			return m_read_buf + m_start_line; 
 		}
 		LINE_STATUS parse_line();

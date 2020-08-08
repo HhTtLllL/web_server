@@ -12,15 +12,26 @@
 #include "CurrentThread.h"
 #include <iostream>
 
+//using namespace tt;
+
+namespace CurrentThread {
+__thread int t_cachedTid = 0;
+__thread char t_tidString[32];
+__thread int t_tidStringLength = 6;
+__thread const char* t_threadName = "default";
+}
+
+
 namespace tt{
 
 namespace detail{
+	
 	pid_t gettid(){
 		return static_cast<pid_t>(::syscall(SYS_gettid));
 	}
 
 
-	void CurrentThread::cacheTid(){
+/*	void tt::CurrentThread::cacheTid(){
 		if(t_cachedTid == 0){
 			t_cachedTid = detail::gettid();
 
@@ -28,17 +39,17 @@ namespace detail{
 		}
 	}
 
-	
+*/	
 
 	struct ThreadData{
-		typedf tt::Thread::ThreadFunc m_ThreadFunc;
-		ThreadFunc m_func;
-		string m_name;
+		typedef tt::Thread::ThreadFunc m_ThreadFunc;
+		m_ThreadFunc m_func;
+		std::string m_name;
 		pid_t* m_tid;
 		CountDownLatch* m_latch;
 
 		
-		ThreadData(ThreadFunc func,const string& name,
+		ThreadData(m_ThreadFunc func,const std::string& name,
 				pid_t* tid,
 				CountDownLatch* latch)
 			:m_func(func),
@@ -72,7 +83,7 @@ namespace detail{
 	void* startThread(void* obj){
 		ThreadData* data = static_cast<ThreadData*>(obj);
 
-		data->runInThread;
+		data->runInThread();
 
 		delete data;
 
@@ -83,7 +94,16 @@ namespace detail{
 		return tid() == m;
 	}*/
 
-	Thread::Thread(ThreadFunc func,const std::string& name)
+void CurrentThread::cacheTid(){
+	if(t_cachedTid == 0){
+		t_cachedTid = detail::gettid();
+
+		t_tidStringLength = snprintf(t_tidString,sizeof(t_tidString), "%5d",t_cachedTid);
+	}
+}
+
+
+Thread::Thread(ThreadFunc func,const std::string& name)
 		:m_started(false),
 		m_joined(false),
 		m_pthreadId(0),
@@ -93,7 +113,7 @@ namespace detail{
 		m_latch(1){
 
 		setDefaultName();
-	}
+}
 
 Thread::~Thread(){
 	if(m_started && !m_joined) pthread_detach(m_pthreadId);
@@ -135,4 +155,6 @@ int Thread::join(){
 }
 
 }
+
+
 

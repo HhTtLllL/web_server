@@ -15,7 +15,7 @@ class Thread : noncopyable{
 public:
 	typedef std::function<void ()> ThreadFunc;
 
-	explicit Thread(const ThreadFunc&, const std::string& name = std::string());
+	explicit Thread(ThreadFunc func, const std::string& name = std::string());
 	~Thread();
 
 	void start();
@@ -23,7 +23,7 @@ public:
 
 	bool started() const { return m_started; }
 	pid_t tid() const { return m_tid; }
-	const std::string& name() const { return m_name; }
+	const std::string& name()const  { return m_name; }
 
 private:
 	void setDefaultName();

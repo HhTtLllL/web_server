@@ -8,16 +8,17 @@
 #include <queue>
 #include "Util.h"
 #include "base/Logging.h"
-
+#include "Channel.h"
 #include <arpa/inet.h>
 #include <iostream>
 
 using namespace tt;
+using namespace net;
 
 const int EVENTSNUM = 4096;
-const EPOLLWAIT_TIME = 10000;
+const int EPOLLWAIT_TIME = 10000;
 
-typedef shared_ptr<Channel> SP_Channel;
+//typedef shared_ptr<Channel> SP_Channel;
 
 Epoll::Epoll()
 	:m_epollFd(epoll_create1(EPOLL_CLOEXEC)),
@@ -88,7 +89,7 @@ void Epoll::epoll_del(SP_Channel request){
 	event.events = request->getLastEvents();
 
 	if(epoll_ctl(m_epollFd, EPOLL_CTL_DEL, fd, &event) < 0){
-		prror("epoll_del error");
+		perror("epoll_del error");
 	}
 
 	m_fd2chan[fd].reset();
@@ -149,7 +150,7 @@ std::vector<SP_Channel> Epoll::getEventsRequest(int events_num){
 
 void Epoll::add_timer(SP_Channel request_data, int timeout){
 	
-	shared_ptr<HttpData> t = request_data->getHolder();
+	std::shared_ptr<HttpData> t = request_data->getHolder();
 
 	if(t) m_timeManager.addTimer(t,timeout);
 	else LOG << "timer add fail";

@@ -4,11 +4,14 @@
 #include <iostream>
 #include "Util.h"
 #include "base/Logging.h"
+#include "Channel.h"
+#include "Epoll.h"
+
+using namespace tt;
+using namespace tt::net;
 
 __thread EventLoop* t_loopInTishThread = 0;
 
-using namespace tt;
-using namespace net;
 
 
 int createEventfd(){
@@ -22,6 +25,22 @@ int createEventfd(){
 	return evtfd;
 }
 
+/*
+void EventLoop::shutdown(std::shared_ptr<Channel> channel) { 
+	shutDownWR(channel->getFd()); 
+}
+
+void EventLoop::removeFromPoller(std::shared_ptr<Channel> channel){ 
+	m_epoll->epoll_del(channel); 
+}
+
+	void EventLoop::updatePoller(std::shared_ptr<Channel> channel, int timeout = 0){ 
+		m_epoll->epoll_mod(channel, timeout); 
+}
+	
+	void EventLoop::addToPoller(std::shared_ptr<Channel> channel, int timeout = 0) { 
+		m_epoll->epoll_add(channel, timeout); 
+	}*/
 EventLoop::EventLoop()
 	:m_looping(false),
 	m_epoll(new Epoll()),
@@ -42,8 +61,8 @@ EventLoop::EventLoop()
 
 
 		m_wakeupChannel->setEvents(EPOLLIN | EPOLLET);
-		m_wakeupChannel->setReadHandler(bind(&EventLoop::handleRead, this));
-		m_wakeupChannel->setConnHandler(bind(&EventLoop::handleConn,this));
+		m_wakeupChannel->setReadHandler(std::bind(&EventLoop::handleRead, this));
+		m_wakeupChannel->setConnHandler(std::bind(&EventLoop::handleConn,this));
 		m_epoll->epoll_add(m_wakeupChannel,0);
 }
 
@@ -154,53 +173,5 @@ void EventLoop::quit(){
 		wakeup();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -13,13 +13,13 @@ static pthread_once_t once_control_ = PTHREAD_ONCE_INIT;
 
 static AsyncLogging *AsyncLogger_;
 
-std::string Logger::logFileName_ = "./WebServer.log";
+std::string Logger::m_logFileName = "./WebServer.log";
 
 
 void once_init(){
 	
-	AsyncLoggr_ = new AsyncLogging(Logger::getLogFileName());
-	AsyncLoggr_->start();
+	AsyncLogger_ = new AsyncLogging(Logger::getLogFileName());
+	AsyncLogger_->start();
 }
 
 
@@ -28,7 +28,7 @@ void output(const char* msg, int len){
 	AsyncLogger_->append(msg, len);
 }
 
-Logger::ImpplImpl(const char * fileName, int line)
+Logger::Impl::Impl(const char * fileName, int line)
 	:m_stream(),
 	m_line(line),
 	m_basename(fileName){

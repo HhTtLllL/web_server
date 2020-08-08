@@ -1,14 +1,14 @@
 #ifndef TT_NET_CHANNEL_H
 #define TT_NET_CHANNEL_H
 
-#include "../noncopyable.h"
-#include <sys/epoll.h>
+#include "base/noncopyable.h"
 #include <sys/epoll.h>
 #include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include "Timer.h"
+
 
 
 namespace tt{
@@ -20,6 +20,32 @@ class HttpData;
 
 
 class Channel : noncopyable{
+
+private:
+	typedef std::function<void()> CallBack;
+	EventLoop *m_loop;
+	int m_fd;
+	__uint32_t m_events;
+	__uint32_t m_revents;
+	__uint32_t m_lastEvents;
+
+
+	//方便找到上层持有该 Channel 的对象
+	std::weak_ptr<HttpData> m_holder;
+
+private:
+	int parse_URI();
+	int parse_Headers();
+	int analyisRequest();
+
+
+	CallBack m_readHandler;
+	CallBack m_writeHandler;
+	CallBack m_errorHandler;
+	CallBack m_connHandler;
+
+
+
 
 public:
 	Channel(EventLoop *loop);
@@ -93,13 +119,13 @@ public:
 		return ret;
 	}
 
-	__uint32_t getLastEvents() { retur m_lastEvents; }
+	__uint32_t getLastEvents() { return m_lastEvents; }
 
 
 
 
 
-
+/*
 private:
 	typedef std::function<void()> CallBack;
 	EventLoop *m_loop;
@@ -112,8 +138,8 @@ private:
 	//方便找到上层持有该 Channel 的对象
 	std::weak_ptr<HttpData> m_holder;
 
-
-
+*/
+/*
 private:
 	int parse_URI();
 	int parse_Headers();
@@ -125,7 +151,7 @@ private:
 	CallBack m_errorHandler;
 	CallBack m_connHandler;
 
-
+*/
 
 
 
@@ -135,11 +161,9 @@ private:
 
 typedef std::shared_ptr<Channel> SP_Channel;
 
-
-
-
-
 }  //net
 
 
 }// tt
+
+#endif

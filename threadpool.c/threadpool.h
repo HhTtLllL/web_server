@@ -94,9 +94,9 @@ template<typename T>
 void* threadpool< T >::worker(void* arg)
 {
 	threadpool* pool = (threadpool*)arg;
-	printf("线程池开始工作...\n");
+	//printf("线程池开始工作...\n");
 	pool->run();
-	printf("线程池工作完成...\n");
+	//printf("线程池工作完成...\n");
 	return pool;
 }
 
@@ -105,16 +105,16 @@ void threadpool<T>::run()
 {
 	while(!m_stop)
 	{
-		m_queuestat.wait();
-		m_queuelocker.lock();
+		m_queuestat.wait(); //是否有任务处理
+		m_queuelocker.lock();  //任务队列的保护锁
 		if(m_workqueue.empty())
 		{
 			m_queuelocker.unlock();
 			continue;
 		}
-		T* request = m_workqueue.front();
-		m_workqueue.pop_front();
-		m_queuelocker.unlock();
+		T* request = m_workqueue.front();  //取出队头任务
+		m_workqueue.pop_front();  //删除队头任务
+		m_queuelocker.unlock();  //解锁
 		if(!request)
 		{
 			continue;

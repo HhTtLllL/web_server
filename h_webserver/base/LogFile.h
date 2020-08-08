@@ -33,7 +33,7 @@ private:
 
 	int m_count;
 	std::unique_ptr<MutexLock> m_mutex;
-	std::unique_ptr<AppendFile> m_file;
+	std::unique_ptr<FileUtil::AppendFile> m_file;
 
 };
 

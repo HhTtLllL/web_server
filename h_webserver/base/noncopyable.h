@@ -7,7 +7,7 @@ class noncopyable{
 public:
 	noncopyable(const noncopyable& ) = delete;
 	noncopyable& operator=(const noncopyable& ) = delete;
-protect:
+protected:
 	noncopyable() = default;
 	~noncopyable() = default;
 };
