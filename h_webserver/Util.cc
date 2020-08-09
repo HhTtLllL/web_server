@@ -9,7 +9,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include "Channel.h"
-
+#include <iostream>
 
 
 const int MAX_BUFF = 4096;
@@ -181,11 +181,17 @@ void handle_for_sigpipe() {
 
 
 int setSocketNonBlocking(int fd) {
+//	std::cout << "开始设置非阻塞" << std::endl;
+//	std::cout << "fd = " << fd << std::endl;
   int flag = fcntl(fd, F_GETFL, 0);
+//  std::cout << "flag = " << flag << std::endl;
   if (flag == -1) return -1;
 
   flag |= O_NONBLOCK;
   if (fcntl(fd, F_SETFL, flag) == -1) return -1;
+
+//	std::cout << "成功设置非阻塞" << std::endl;
+
   return 0;
 }
 

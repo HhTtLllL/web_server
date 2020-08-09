@@ -10,7 +10,7 @@ using namespace net;
 int main(int argc, char *argv[]) {
   int threadNum = 4;
   int port = 80;
-  std::string logPath = "./WebServer.log";
+  std::string logPath = "../../log/WebServer.log";
 
   // parse args
   int opt;
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
       case 'l': {
         logPath = optarg;
         if (logPath.size() < 2 || optarg[0] != '/') {
-          printf("logPath should start with \"/\"\n");
+ //         printf("logPath should start with \"/\"\n");
           abort();
         }
         break;

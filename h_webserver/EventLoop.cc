@@ -15,13 +15,15 @@ __thread EventLoop* t_loopInTishThread = 0;
 
 
 int createEventfd(){
-
+	
+	std::cout  << "开始创建eventfd" << std::endl;
 	int evtfd = eventfd(0,EFD_NONBLOCK | EFD_CLOEXEC);
 	if(evtfd < 0){
 		LOG << "Failed in eventfd";
 		abort();
 	}
 
+	std::cout  << "成功eventfd" << std::endl;
 	return evtfd;
 }
 

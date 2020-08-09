@@ -217,6 +217,8 @@ Util.h
 /home/tt/web_server/h_webserver/Util.h
 base/Logging.h
 /home/tt/web_server/h_webserver/base/Logging.h
+iostream
+-
 
 /home/tt/web_server/h_webserver/Server.h
 memory
@@ -275,6 +277,8 @@ unistd.h
 -
 Channel.h
 /home/tt/web_server/h_webserver/Channel.h
+iostream
+-
 
 /home/tt/web_server/h_webserver/Util.h
 cstdlib

@@ -152,6 +152,33 @@ AsyncLogging.cc.s:
 	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/AsyncLogging.cc.s
 .PHONY : AsyncLogging.cc.s
 
+Condition.o: Condition.cc.o
+
+.PHONY : Condition.o
+
+# target to build an object file
+Condition.cc.o:
+	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o
+.PHONY : Condition.cc.o
+
+Condition.i: Condition.cc.i
+
+.PHONY : Condition.i
+
+# target to preprocess a source file
+Condition.cc.i:
+	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.i
+.PHONY : Condition.cc.i
+
+Condition.s: Condition.cc.s
+
+.PHONY : Condition.s
+
+# target to generate assembly for a file
+Condition.cc.s:
+	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.s
+.PHONY : Condition.cc.s
+
 CountDownLatch.o: CountDownLatch.cc.o
 
 .PHONY : CountDownLatch.o
@@ -178,6 +205,33 @@ CountDownLatch.s: CountDownLatch.cc.s
 CountDownLatch.cc.s:
 	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/CountDownLatch.cc.s
 .PHONY : CountDownLatch.cc.s
+
+CurrentThread.o: CurrentThread.cc.o
+
+.PHONY : CurrentThread.o
+
+# target to build an object file
+CurrentThread.cc.o:
+	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.o
+.PHONY : CurrentThread.cc.o
+
+CurrentThread.i: CurrentThread.cc.i
+
+.PHONY : CurrentThread.i
+
+# target to preprocess a source file
+CurrentThread.cc.i:
+	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.i
+.PHONY : CurrentThread.cc.i
+
+CurrentThread.s: CurrentThread.cc.s
+
+.PHONY : CurrentThread.s
+
+# target to generate assembly for a file
+CurrentThread.cc.s:
+	cd /home/tt/web_server/build && $(MAKE) -f h_webserver/base/CMakeFiles/libserver_base.dir/build.make h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.s
+.PHONY : CurrentThread.cc.s
 
 FileUtil.o: FileUtil.cc.o
 
@@ -326,9 +380,15 @@ help:
 	@echo "... AsyncLogging.o"
 	@echo "... AsyncLogging.i"
 	@echo "... AsyncLogging.s"
+	@echo "... Condition.o"
+	@echo "... Condition.i"
+	@echo "... Condition.s"
 	@echo "... CountDownLatch.o"
 	@echo "... CountDownLatch.i"
 	@echo "... CountDownLatch.s"
+	@echo "... CurrentThread.o"
+	@echo "... CurrentThread.i"
+	@echo "... CurrentThread.s"
 	@echo "... FileUtil.o"
 	@echo "... FileUtil.i"
 	@echo "... FileUtil.s"

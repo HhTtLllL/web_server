@@ -5,6 +5,7 @@
 #include <functional>
 #include "Util.h"
 #include "base/Logging.h"
+#include <iostream>
 
 using namespace tt;
 using namespace tt::net;
@@ -19,7 +20,8 @@ Server::Server(EventLoop *loop, int threadNum, int port)
       listenFd_(socket_bind_listen(port_)) {
   acceptChannel_->setFd(listenFd_);
   handle_for_sigpipe();
-  if (setSocketNonBlocking(listenFd_) < 0) {
+  if(setSocketNonBlocking(listenFd_) < 0) {
+//	  std::cout << "listenFd = " << listenFd_ << std::endl;
     perror("set socket non block failed");
     abort();
   }
@@ -61,6 +63,7 @@ void Server::handNewConn() {
       continue;
     }
     // 设为非阻塞模式
+    
     if (setSocketNonBlocking(accept_fd) < 0) {
       LOG << "Set non block failed!";
       // perror("Set non block failed!");

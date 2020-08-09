@@ -38,6 +38,8 @@ int setSocketNonBlocking1(int fd) {
   if (fcntl(fd, F_SETFL, flag) == -1) return -1;
   return 0;
 }
+
+
 int main(int argc, char *argv[]) {
   int sockfd;
   struct sockaddr_in servaddr;
@@ -51,6 +53,7 @@ int main(int argc, char *argv[]) {
   // 发空串
   const char *p = " ";
   if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) == 0) {
+    
     setSocketNonBlocking1(sockfd);
     cout << "1:" << endl;
     ssize_t n = write(sockfd, p, strlen(p));

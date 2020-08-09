@@ -12,11 +12,19 @@ h_webserver/base/CMakeFiles/libserver_base.dir/AsyncLogging.cc.o: ../h_webserver
 h_webserver/base/CMakeFiles/libserver_base.dir/AsyncLogging.cc.o: ../h_webserver/base/Thread.h
 h_webserver/base/CMakeFiles/libserver_base.dir/AsyncLogging.cc.o: ../h_webserver/base/noncopyable.h
 
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o: ../h_webserver/base/Condition.cc
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o: ../h_webserver/base/Condition.h
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o: ../h_webserver/base/MutexLock.h
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o: ../h_webserver/base/noncopyable.h
+
 h_webserver/base/CMakeFiles/libserver_base.dir/CountDownLatch.cc.o: ../h_webserver/base/Condition.h
 h_webserver/base/CMakeFiles/libserver_base.dir/CountDownLatch.cc.o: ../h_webserver/base/CountDownLatch.cc
 h_webserver/base/CMakeFiles/libserver_base.dir/CountDownLatch.cc.o: ../h_webserver/base/CountDownLatch.h
 h_webserver/base/CMakeFiles/libserver_base.dir/CountDownLatch.cc.o: ../h_webserver/base/MutexLock.h
 h_webserver/base/CMakeFiles/libserver_base.dir/CountDownLatch.cc.o: ../h_webserver/base/noncopyable.h
+
+h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.o: ../h_webserver/base/CurrentThread.cc
+h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.o: ../h_webserver/base/CurrentThread.h
 
 h_webserver/base/CMakeFiles/libserver_base.dir/FileUtil.cc.o: ../h_webserver/base/FileUtil.cc
 h_webserver/base/CMakeFiles/libserver_base.dir/FileUtil.cc.o: ../h_webserver/base/FileUtil.h

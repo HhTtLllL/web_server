@@ -148,6 +148,32 @@ h_webserver/base/CMakeFiles/libserver_base.dir/Thread.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libserver_base.dir/Thread.cc.s"
 	cd /home/tt/web_server/build/h_webserver/base && g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tt/web_server/h_webserver/base/Thread.cc -o CMakeFiles/libserver_base.dir/Thread.cc.s
 
+h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.o: h_webserver/base/CMakeFiles/libserver_base.dir/flags.make
+h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.o: ../h_webserver/base/CurrentThread.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tt/web_server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.o"
+	cd /home/tt/web_server/build/h_webserver/base && g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libserver_base.dir/CurrentThread.cc.o -c /home/tt/web_server/h_webserver/base/CurrentThread.cc
+
+h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libserver_base.dir/CurrentThread.cc.i"
+	cd /home/tt/web_server/build/h_webserver/base && g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tt/web_server/h_webserver/base/CurrentThread.cc > CMakeFiles/libserver_base.dir/CurrentThread.cc.i
+
+h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libserver_base.dir/CurrentThread.cc.s"
+	cd /home/tt/web_server/build/h_webserver/base && g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tt/web_server/h_webserver/base/CurrentThread.cc -o CMakeFiles/libserver_base.dir/CurrentThread.cc.s
+
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o: h_webserver/base/CMakeFiles/libserver_base.dir/flags.make
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o: ../h_webserver/base/Condition.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tt/web_server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o"
+	cd /home/tt/web_server/build/h_webserver/base && g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/libserver_base.dir/Condition.cc.o -c /home/tt/web_server/h_webserver/base/Condition.cc
+
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/libserver_base.dir/Condition.cc.i"
+	cd /home/tt/web_server/build/h_webserver/base && g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tt/web_server/h_webserver/base/Condition.cc > CMakeFiles/libserver_base.dir/Condition.cc.i
+
+h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/libserver_base.dir/Condition.cc.s"
+	cd /home/tt/web_server/build/h_webserver/base && g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tt/web_server/h_webserver/base/Condition.cc -o CMakeFiles/libserver_base.dir/Condition.cc.s
+
 # Object files for target libserver_base
 libserver_base_OBJECTS = \
 "CMakeFiles/libserver_base.dir/AsyncLogging.cc.o" \
@@ -156,7 +182,9 @@ libserver_base_OBJECTS = \
 "CMakeFiles/libserver_base.dir/LogFile.cc.o" \
 "CMakeFiles/libserver_base.dir/Logging.cc.o" \
 "CMakeFiles/libserver_base.dir/LogStream.cc.o" \
-"CMakeFiles/libserver_base.dir/Thread.cc.o"
+"CMakeFiles/libserver_base.dir/Thread.cc.o" \
+"CMakeFiles/libserver_base.dir/CurrentThread.cc.o" \
+"CMakeFiles/libserver_base.dir/Condition.cc.o"
 
 # External object files for target libserver_base
 libserver_base_EXTERNAL_OBJECTS =
@@ -168,9 +196,11 @@ h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.di
 h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.dir/Logging.cc.o
 h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.dir/LogStream.cc.o
 h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.dir/Thread.cc.o
+h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.dir/CurrentThread.cc.o
+h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.dir/Condition.cc.o
 h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.dir/build.make
 h_webserver/base/libserver_base.a: h_webserver/base/CMakeFiles/libserver_base.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tt/web_server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library libserver_base.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/tt/web_server/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX static library libserver_base.a"
 	cd /home/tt/web_server/build/h_webserver/base && $(CMAKE_COMMAND) -P CMakeFiles/libserver_base.dir/cmake_clean_target.cmake
 	cd /home/tt/web_server/build/h_webserver/base && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/libserver_base.dir/link.txt --verbose=$(VERBOSE)
 

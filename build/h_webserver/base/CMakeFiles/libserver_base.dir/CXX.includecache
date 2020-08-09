@@ -19,6 +19,8 @@ functional
 -
 LogFile.h
 /home/tt/web_server/h_webserver/base/LogFile.h
+Condition.h
+/home/tt/web_server/h_webserver/base/Condition.h
 
 /home/tt/web_server/h_webserver/base/AsyncLogging.h
 functional
@@ -37,6 +39,14 @@ Thread.h
 /home/tt/web_server/h_webserver/base/Thread.h
 noncopyable.h
 /home/tt/web_server/h_webserver/base/noncopyable.h
+
+/home/tt/web_server/h_webserver/base/Condition.cc
+Condition.h
+/home/tt/web_server/h_webserver/base/Condition.h
+error.h
+-
+iomanip
+-
 
 /home/tt/web_server/h_webserver/base/Condition.h
 MutexLock.h
@@ -59,6 +69,10 @@ MutexLock.h
 /home/tt/web_server/h_webserver/base/MutexLock.h
 noncopyable.h
 /home/tt/web_server/h_webserver/base/noncopyable.h
+
+/home/tt/web_server/h_webserver/base/CurrentThread.cc
+CurrentThread.h
+/home/tt/web_server/h_webserver/base/CurrentThread.h
 
 /home/tt/web_server/h_webserver/base/CurrentThread.h
 stdint.h
@@ -191,12 +205,14 @@ unistd.h
 -
 memory
 -
+iostream
+-
 Thread.h
 /home/tt/web_server/h_webserver/base/Thread.h
 CurrentThread.h
 /home/tt/web_server/h_webserver/base/CurrentThread.h
-iostream
--
+CurrentThread.h
+/home/tt/web_server/h_webserver/base/CurrentThread.h
 
 /home/tt/web_server/h_webserver/base/Thread.h
 pthread.h

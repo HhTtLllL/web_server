@@ -6,6 +6,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/libserver_base.dir/Logging.cc.o"
   "CMakeFiles/libserver_base.dir/LogStream.cc.o"
   "CMakeFiles/libserver_base.dir/Thread.cc.o"
+  "CMakeFiles/libserver_base.dir/CurrentThread.cc.o"
+  "CMakeFiles/libserver_base.dir/Condition.cc.o"
   "libserver_base.pdb"
   "libserver_base.a"
 )

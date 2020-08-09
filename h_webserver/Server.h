@@ -1,4 +1,3 @@
-#pragma once
 #include <memory>
 #include "Channel.h"
 #include "EventLoop.h"
