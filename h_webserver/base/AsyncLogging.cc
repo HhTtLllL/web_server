@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <functional>
 #include "LogFile.h"
-
+#include "Condition.h"
 using namespace tt;
 
 AsyncLogging::AsyncLogging(const std::string& basename, int flushInterval)
@@ -27,7 +27,7 @@ AsyncLogging::AsyncLogging(const std::string& basename, int flushInterval)
 
 }
 
-void tt::AsyncLogging::append(const char* logline, int len){
+void AsyncLogging::append(const char* logline, int len){
 	tt::MutexLockGuard lock(m_mutex);
 
 
@@ -50,7 +50,7 @@ void tt::AsyncLogging::append(const char* logline, int len){
 	
 }
 
-void tt::AsyncLogging::threadFunc(){
+void AsyncLogging::threadFunc(){
 
 	assert(m_running == true);
 

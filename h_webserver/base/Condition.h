@@ -6,6 +6,7 @@
 #include <time.h>
 
 namespace tt{
+
 class Condition : noncopyable{
 public:
 	explicit Condition(MutexLock& mutex)
@@ -18,7 +19,7 @@ public:
 	void notify() { pthread_cond_signal(&m_cond); }
 	void notifyAll() { pthread_cond_broadcast(&m_cond); }
 	
-	bool waitForSeconds(double seconds);
+	bool waitForSeconds(int seconds);
 
 
 

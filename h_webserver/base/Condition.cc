@@ -1,8 +1,8 @@
 #include "Condition.h"
 #include <error.h>
+#include <iomanip>
 
-
-bool tt::Condition::waitForSeconds(double seconds){
+bool tt::Condition::waitForSeconds(int seconds){
 	struct timespec abstime;
 
 	clock_gettime(CLOCK_REALTIME,&abstime);
@@ -13,3 +13,4 @@ bool tt::Condition::waitForSeconds(double seconds){
 	return ETIMEDOUT == pthread_cond_timedwait(&m_cond,m_mutex.getPthreadMutex(),&abstime);
 
 }
+

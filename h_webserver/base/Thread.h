@@ -10,6 +10,7 @@
 #include "CountDownLatch.h"
 
 namespace tt{
+
 class Thread : noncopyable{
 
 public:

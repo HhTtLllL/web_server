@@ -6,6 +6,8 @@ set(LIB_SRC
     Logging.cc
     LogStream.cc
     Thread.cc
+    CurrentThread.cc
+    Condition.cc
 )
 
 add_library(libserver_base ${LIB_SRC})

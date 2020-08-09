@@ -2,7 +2,6 @@
 
 #include <stdint.h>
 
-
 namespace tt{
 
 namespace CurrentThread{
